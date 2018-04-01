@@ -16,7 +16,6 @@
   <canvas width="449" height="327" id="canvas"></canvas>
   <p><small>右クリックで生成した画像を保存できます</small></p>
   <p>「<input type="text" placeholder="ばなな" value="ばなな">」</p>
-
   <a href="https://twitter.com/" target="_blank">ツイートする</a>
 <script>
   var canvas;
@@ -33,7 +32,7 @@
     template = new Image();
     context.font = "46px 'mimizu'";
     text = "text" in getQuery() ? decodeURI(getQuery().text) : "";
-    template.src = "./頭の悪い人.png"
+    template.src = "./template.PNG"
     template.onload = draw;
   });
 
@@ -51,9 +50,9 @@
     context.drawImage(template, 0, 0, 449, 327);
     tategaki(context, text, 350, 50);
     if(text != ""){
-      history.replaceState(null, null, '/huniki_generator/?text=' + text);
+      history.replaceState(null, null, '/aho-human/?text=' + text);
     }else{
-      history.replaceState(null, null, '/huniki_generator/');
+      history.replaceState(null, null, '/aho-human/');
     }
     makeURL();
   }
@@ -84,7 +83,7 @@
 
   var makeURL = function(){
     var base = "https://twitter.com/intent/tweet?text=頭の悪い人「";
-    $("a").setAttribute("href", base + text + "をやっている」&hashtags=huniki_generator" + "&url=" + encodeURIComponent(location.href) )
+    $("a").setAttribute("href", base + text + "」&hashtags=aho-human" + "&url=" + encodeURIComponent(location.href) )
   }
 </script>
 
