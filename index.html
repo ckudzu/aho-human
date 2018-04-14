@@ -10,18 +10,27 @@
     font-family: 'mimizu';
     src: url('./MiMiZuFree.OTF') format('opentype');
   }
+  input[type="text"] {
+    font-family: 'mimizu','meyrio';
+  }
 </style>
 <body>
   <h1>頭の悪い人ジェネレーター</h1>
   <canvas width="449" height="327" id="canvas"></canvas>
   <p><small>右クリックで生成した画像を保存できます</small></p>
-  <p>「<input type="text" placeholder="ばなな" value="ばなな">」</p>
-  <a href="https://twitter.com/" target="_blank">ツイートする</a>
+  <p>頭の悪い人「<input type="text" placeholder="ばなな" value="ばなな">」</p>
+  <p>
+    font size
+    <input type="button" name="" value="+" id="plus">
+    <input type="button" name="" value="-" id="minus">
+  </p>
+  <!-- <a href="https://twitter.com/" target="_blank">ツイートする</a> -->
 <script>
   var canvas;
   var context;
   var template;
   var text;
+  var fontSize="46px";
   var $ = function(e){
     return document.querySelector(e);
   }
@@ -30,7 +39,7 @@
     canvas = $("#canvas");
     context = canvas.getContext('2d');
     template = new Image();
-    context.font = "46px 'mimizu'";
+    context.font = `${fontSize} 'mimizu'`;
     text = "text" in getQuery() ? decodeURI(getQuery().text) : "";
     template.src = "./template.PNG"
     template.onload = draw;
@@ -46,15 +55,33 @@
     draw();
   })
 
+  $("#plus").addEventListener("click", function(e){
+    fontSize=fontSize.slice(0,-2);
+    fontSize++;
+    fontSize=`${fontSize}px`
+    console.log(fontSize);
+    context.font = `${fontSize} 'mimizu'`;
+    draw();
+  })
+
+  $("#minus").addEventListener("click", function(e){
+    fontSize=fontSize.slice(0,-2);
+    fontSize--;
+    fontSize=`${fontSize}px`
+    console.log(fontSize);
+    context.font = `${fontSize} 'mimizu'`;
+    draw();
+  })
+
   var draw = function(){
     context.drawImage(template, 0, 0, 449, 327);
     tategaki(context, text, 350, 50);
-    if(text != ""){
-      history.replaceState(null, null, '/aho-human/?text=' + text);
-    }else{
-      history.replaceState(null, null, '/aho-human/');
-    }
-    makeURL();
+    // if(text != ""){
+    //   history.replaceState(null, null, '/aho-human/?text=' + text);
+    // }else{
+    //   history.replaceState(null, null, '/aho-human/');
+    // }
+    // makeURL();
   }
 
   var tategaki = function(context, text, x, y) {
@@ -81,10 +108,10 @@
     return vars;
   }
 
-  var makeURL = function(){
-    var base = "https://twitter.com/intent/tweet?text=頭の悪い人「";
-    $("a").setAttribute("href", base + text + "」&hashtags=aho-human" + "&url=" + encodeURIComponent(location.href) )
-  }
+  // var makeURL = function(){
+  //   var base = "https://twitter.com/intent/tweet?text=頭の悪い人「";
+  //   $("a").setAttribute("href", base + text + "」&hashtags=aho-human" + "&url=" + encodeURIComponent(location.href) )
+  // }
 </script>
 
 </body>
